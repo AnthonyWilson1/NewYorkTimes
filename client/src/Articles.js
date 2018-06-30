@@ -12,6 +12,7 @@ class Article extends Component {
 
 
     backwards(param) {
+        console.log(param)
         var array = []
         param.forEach(element => {
             array.unshift(element)
@@ -23,7 +24,7 @@ class Article extends Component {
         return axios.get('/api/articles').then(
             (result) => {
                 let newResults = this.backwards(result.data)
-                this.setState({articles : newResults})
+                return this.setState({articles : newResults})
             })
         // document.addEventListener('click', function (event) {
         //     console.log(event.target.className)
