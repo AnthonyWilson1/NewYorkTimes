@@ -13,23 +13,23 @@ class Article extends Component {
 
     backwards(param) {
         var array = []
-        console.log(param)
-        param.forEach(element => {
-            array.unshift(element)
-        })
-        // for (let i = 0; i < param.length; i++) {
-        //     array.unshift(param[i])
-        // }
+        // console.log(param)
+        // param.forEach(element => {
+        //     array.unshift(element)
+        // })
+        for (const key in param) {
+           
+        }
         return array
     }
 
     componentDidMount() {
         axios.get('/api/articles').then(
             (result) => {
-                //console.log(result.data)
-                let newResults = this.backwards(result.data)
-                console.log(newResults)
-                this.setState({articles : newResults})
+                console.log(result.data)
+                //let newResults = this.backwards(result.data)
+                //console.log(newResults)
+                //this.setState({articles : newResults})
             })
         // document.addEventListener('click', function (event) {
         //     console.log(event.target.className)
