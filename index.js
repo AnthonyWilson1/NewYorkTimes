@@ -38,6 +38,7 @@ if (process.env.NODE_ENV === 'production') {
 
 app.get('/api/articles', function (req,res) {
    db.Article.find({}).then(function(dbArticle) {
+       console.log(dbArticle)
        res.json(dbArticle)
    }).catch(function(err) {
     res.json(err);
