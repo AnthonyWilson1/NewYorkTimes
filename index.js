@@ -12,17 +12,28 @@ var PORT = 5000;
 
 var app = express();
 
+var MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/NewYorkTimes'
+
 app.use(logger("dev"));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect("mongodb://localhost/NewYorkTimes");
+mongoose.connect(MONGODB_URI);
 
 
-app.get('/', function (req,res) {
-    res.send('Hello There')
-})
+// app.get('/', function (req,res) {
+//     res.send('Hello There')
+// })
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('client/build'));
+ 
+    const path = require('path');
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    })
+}
 
 app.get('/api/articles', function (req,res) {
    db.Article.find({}).then(function(dbArticle) {
@@ -32,7 +43,7 @@ app.get('/api/articles', function (req,res) {
   })
 })
 
-app.post('/scrape', function (req,res) {
+app.post('/api/scrape', function (req,res) {
     axios.get('https://www.nytimes.com/section/technology').then(function(response) {
     var $ = cheerio.load(response.data);
     var results = [];
@@ -50,25 +61,47 @@ app.post('/scrape', function (req,res) {
             db.Article.findOne({headline: element.headline}).then(
                 function(dbArticle) {
                     if (dbArticle) {
-                    console.log('In Records')
+                    console.log(i + 'In Records')
+                        if (i === results.length - 1 && dbArticle) {
+                            console.log('complete')
+                            res.send('complete')
+                        }
                     }
                     else {
                         db.Article.create(results).then(function(dbArticle) {
-                            // res.send(dbArticle)
                             console.log(dbArticle)
+                            if (i === results.length - 1 & dbArticle) {
+                                console.log('complete')
+                                db.Article.find({}, function (dbArticle) {
+                                    res.json(dbArticle)
+                                })
+                            }
                         }).catch(function(err) {
                             return res.json(err)
                         });
                     }
-                    if (i === results.length - 1) {
-                        db.Article.find({}, function (dbArticle) {
-                            res.json(dbArticle)
-                        })
-                    }
+                    // if (i === results.length - 1) {
+                    //     console.log(i, 'records')
+                    //     db.Article.find({}, function (dbArticle) {
+                    //         res.json(dbArticle)
+                    //     })
+                    // }
+                    // else if (i === results.length - 1 && !dbArticle) {
+                    //     console.log(i, ' not records')
+                    //     db.Article.create(results).then(function(dbArticle) {
+                    //         //res.send(dbArticle)
+                    //         console.log(dbArticle)
+                    //         db.Article.find({}, function (dbArticle) {
+                    //             res.json(dbArticle)
+                    //         }).catch(function(err) {
+                    //             return res.json(err)
+                    //         })
+                    //     })
+                    // }
                 })
         })
-        res.end()
-    })
+        //res.send('Hello')
+     })
 })
 
 app.put('/api/save', function(req,res) {

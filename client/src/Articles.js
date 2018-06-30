@@ -10,11 +10,21 @@ class Article extends Component {
         this.save = this.save.bind(this);
       }
 
+
+    backwards(param) {
+        var array = []
+        param.forEach(element => {
+            array.unshift(element)
+        })
+        return array
+    }
+
     componentDidMount() {
         axios.get('/api/articles').then(
             (result) => {
-                console.log(result)
-                this.setState({articles : result.data})
+                console.log(result.data)
+                let newResults = this.backwards(result.data)
+                this.setState({articles : newResults})
             })
         // document.addEventListener('click', function (event) {
         //     console.log(event.target.className)

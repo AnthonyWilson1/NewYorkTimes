@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import ReactModal from 'react-modal';
 import ExampleApp from './Modal'
+import Header from './Header'
 
 class Saved extends Component {
   constructor(props) {
@@ -33,6 +34,7 @@ class Saved extends Component {
     render() {
       return (
         <div>
+        {/* <Header /> */}
         {
             this.state.saved && 
             this.state.saved.map((element) => {
