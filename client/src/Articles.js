@@ -11,25 +11,19 @@ class Article extends Component {
       }
 
 
-    // backwards(param) {
-    //     var array = []
-    //     param.forEach(element => {
-    //         array.unshift(element)
-    //     })
-    //     return array
-    // }
+    backwards(param) {
+        var array = []
+        param.forEach(element => {
+            array.unshift(element)
+        })
+        return array
+    }
 
     componentDidMount() {
-        axios.get('/api/articles').then(
+        return axios.get('/api/articles').then(
             (result) => {
-                let array = []
-                result.data.forEach((element) => {
-                    array.unshift(element)
-                })
-                // let newResults = this.backwards(result.data)
-                // console.log(newResults)
-                // this.setState({articles : newResults})
-                this.setState({articles : array})
+                let newResults = this.backwards(result.data)
+                this.setState({articles : newResults})
             })
         // document.addEventListener('click', function (event) {
         //     console.log(event.target.className)
