@@ -13,9 +13,13 @@ class Article extends Component {
 
     backwards(param) {
         var array = []
-        param.forEach(element => {
-            array.unshift(element)
-        })
+        console.log(param)
+        // param.forEach(element => {
+        //     array.unshift(element)
+        // })
+        for (let i = 0; i < param.length; i++) {
+            array.unshift(param[i])
+        }
         return array
     }
 
@@ -32,7 +36,6 @@ class Article extends Component {
         //         console.log(event.target.getAttribute('value'))
         //     }
         // })
-
     }  
 
     save(e) {
