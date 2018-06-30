@@ -19,6 +19,7 @@ app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
 
 
