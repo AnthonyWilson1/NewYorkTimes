@@ -14,6 +14,8 @@ var app = express();
 
 var MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/NewYorkTimes'
 
+const path = require('path');
+
 app.use(logger("dev"));
 
 app.use(bodyParser.json());
@@ -30,7 +32,7 @@ mongoose.connect(MONGODB_URI);
 
 app.use(express.static('client/build'));
 
-const path = require('path');
+//const path = require('path');
 app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
 })
