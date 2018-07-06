@@ -23,6 +23,7 @@ app.use(logger("dev"));
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('client/build'));
 
 
 mongoose.Promise = Promise;
@@ -34,7 +35,7 @@ mongoose.connect(MONGODB_URI);
 // })
 
 
-app.use(express.static('client/build'));
+//app.use(express.static('client/build'));
 
 //const path = require('path');
 // app.get('*', (req, res) => {

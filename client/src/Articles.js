@@ -23,7 +23,7 @@ class Article extends Component {
     componentDidMount() {
         return axios.get('/api/articles').then(
             (result) => {
-                let newResults = this.backwards(result)
+                let newResults = this.backwards(result.data)
                 return this.setState({articles : newResults})
             })
         // document.addEventListener('click', function (event) {
